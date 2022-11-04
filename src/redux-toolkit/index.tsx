@@ -5,13 +5,15 @@ import productsReducer from './slices/products';
 import customersReducer from './slices/customers';
 import billsReducer from './slices/bills';
 import examinationReducer from './slices/examinations';
+import accountReducer from './slices/account';
 
 export const rootReducer = combineReducers({
   sideMenu: sideMenuReducer,
   products: productsReducer,
   customers: customersReducer,
   bills: billsReducer,
-  examinations: examinationReducer
+  examinations: examinationReducer,
+  account: accountReducer
 });
 
 const store = configureStore({

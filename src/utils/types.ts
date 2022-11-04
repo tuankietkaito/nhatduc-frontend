@@ -1,5 +1,18 @@
 import { TablerIcon } from '@tabler/icons';
-import { Gender, MenuItemType } from './constants';
+import { AccountRole, Gender, MenuItemType } from './constants';
+
+export interface ApiResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  payload: any;
+}
+
+export interface IAccount {
+  _id?: string;
+  username: string;
+  roles: AccountRole[];
+}
 
 export interface IMenuItem {
   id: string;

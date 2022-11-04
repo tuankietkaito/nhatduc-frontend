@@ -1,15 +1,23 @@
+import { useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { styled, useTheme } from '@mui/material/styles';
-import { Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 import { RootState, storeDispatch } from '../../redux-toolkit';
 import { setIsOpenedMenu } from '../../redux-toolkit/slices/sideMenu';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import { fetchProfile } from '../../redux-toolkit/slices/account';
 import { DRAWER_WIDTH } from '../../utils/constants';
 
 interface MainComponentProps {
@@ -27,7 +35,7 @@ const Main = styled('main', {
     padding: '20px',
     marginTop: '88px',
     marginRight: '20px',
-    borderRadius: `7px`
+    borderRadius: '7px'
   },
   ...(!open && {
     borderBottomLeftRadius: 0,
@@ -73,9 +81,22 @@ const Main = styled('main', {
 const MainLayout = () => {
   const theme = useTheme();
   const leftDrawerOpened: boolean = useSelector((state: RootState) => state.sideMenu.isOpened);
+  const user = useSelector((state: RootState) => state.account.user);
+  const navigate = useNavigate();
+
   const handleLeftDrawerToggle = () => {
     storeDispatch(setIsOpenedMenu(!leftDrawerOpened));
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+  };
+
+  const token = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (token) storeDispatch(fetchProfile());
+  }, [token]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -91,8 +112,33 @@ const MainLayout = () => {
           transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+          {/* ----------------------------- Account & Logout ----------------------------- */}
+          {user && (
+            <Box sx={{ alignSelf: 'flex-end', display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Box
+                sx={{
+                  backgroundColor: '#DFE1E6',
+                  borderRadius: '50px',
+                  padding: '5px 10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <Typography sx={{ fontWeight: 700, fontSize: '16px' }}>
+                  {user.username.toUpperCase()}
+                </Typography>
+                <AccountCircleIcon sx={{ fontSize: 30 }} color="primary" />
+              </Box>
+              <Tooltip title="Đăng xuất">
+                <IconButton onClick={handleLogout}>
+                  <LogoutIcon sx={{ fontSize: 25 }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
 
