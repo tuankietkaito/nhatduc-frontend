@@ -42,7 +42,6 @@ const NavItem: React.FC<Props> = ({ item, level }) => {
   let listItemProps: any = {
     component: forwardRef((props, ref) => (
       <Link {...props} to={`${item.url}`} target={item.target ? '_blank' : '_self'} />
-      // <Link {...props} to={``} target={'_self'} />
     ))
   };
   if (item?.external) {

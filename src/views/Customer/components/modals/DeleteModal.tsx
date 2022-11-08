@@ -5,18 +5,31 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CustomerApi from '../../../../api/customers.api';
+import { storeDispatch } from '../../../../redux-toolkit';
+import { removeCustomer } from '../../../../redux-toolkit/slices/customers';
 
-const DeleteModal = () => {
+type Props = {
+  custId: string;
+};
+
+const DeleteModal: React.FC<Props> = ({ custId }) => {
   const [open, setOpen] = useState(false);
   const [isDeleteing, setIsDeleteing] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleDelete = async () => {
     setIsDeleteing(true);
-    setTimeout(() => {
+    try {
+      await CustomerApi.deleteCustomer(custId);
+      storeDispatch(removeCustomer(custId));
       setIsDeleteing(false);
       setOpen(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

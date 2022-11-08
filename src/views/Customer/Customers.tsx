@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,12 +22,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
-import { removeAccents } from '../../utils/converter';
 import NewCustomerModal from './components/modals/NewCustomerModal';
-import { data } from '../../utils/fake-data';
 import CustomerRow from './components/CustomerRow';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '../../redux-toolkit';
+import { removeAccents } from '../../utils/converter';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -92,6 +92,10 @@ const Customers = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState(allCustomers);
 
+  useEffect(() => {
+    setRows(allCustomers);
+  }, [allCustomers]);
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -108,7 +112,7 @@ const Customers = () => {
 
   const requestSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchedVal = e.target.value;
-    const filteredRows = data.customers.filter((row) => {
+    const filteredRows = allCustomers.filter((row) => {
       const rowFilter = removeAccents(row.name.toLowerCase()) + row.phone;
       return rowFilter.includes(removeAccents(searchedVal.toLowerCase()));
     });
@@ -177,7 +181,7 @@ const Customers = () => {
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row) => (
-              <CustomerRow row={row} />
+              <CustomerRow key={row._id} row={row} />
             ))}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>

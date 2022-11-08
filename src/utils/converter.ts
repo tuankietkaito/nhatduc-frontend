@@ -1,5 +1,6 @@
 /* Convert Date as format dd.MM.yyyy */
-export const convertDate = (date: Date, withTime: boolean = false) => {
+export const convertDate = (dateString: any, withTime: boolean = false) => {
+  const date = new Date(dateString);
   var year = date.getFullYear();
 
   var month = (1 + date.getMonth()).toString();
@@ -15,8 +16,8 @@ export const convertDate = (date: Date, withTime: boolean = false) => {
     time = `${hh < 10 ? `0${hh}` : hh}:${mm < 10 ? `0${mm}` : mm}`;
   }
 
-  const dateString = [day, month, year].join('.');
-  return withTime ? time + ' - ' + dateString : dateString;
+  const res = [day, month, year].join('.');
+  return withTime ? time + ' - ' + res : res;
 };
 
 /* Convert Phone String as 09xx xxx xxx or 03xxx xxx xxx */

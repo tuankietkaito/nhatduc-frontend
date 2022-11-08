@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Drawer from '@mui/material/Drawer';
-import { Link } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import MenuList from './MenuList';
 import Logo from '../../../components/Logo';
+
 import { DRAWER_WIDTH } from './../../../utils/constants';
 
 type Props = {
@@ -41,8 +42,6 @@ const Header: React.FC<Props> = ({ drawerOpen, drawerToggle }) => {
     </>
   );
 
-  const container = window !== undefined ? () => window.document.body : undefined;
-
   return (
     <Box
       component="nav"
@@ -50,7 +49,6 @@ const Header: React.FC<Props> = ({ drawerOpen, drawerToggle }) => {
       aria-label="mailbox folders"
     >
       <Drawer
-        container={container}
         variant={matchUpMd ? 'persistent' : 'temporary'}
         anchor="left"
         open={drawerOpen}

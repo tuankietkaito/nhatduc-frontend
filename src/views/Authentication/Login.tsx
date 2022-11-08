@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+
 import { login } from '../../api/auth.api';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
     const username = usernameRef.current!.value;
     const password = passwordRef.current!.value;
     const res = await login({ username, password });
-    if (res.statusCode === 201 && res.payload.accessToken) navigate('/');
+    if (res.statusCode === 201 && res.payload.accessToken) navigate('/dashboard');
   };
 
   return (

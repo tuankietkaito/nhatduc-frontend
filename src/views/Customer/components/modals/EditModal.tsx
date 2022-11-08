@@ -23,6 +23,9 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import { Gender } from '../../../../utils/constants';
 import { ICustomer } from '../../../../utils/types';
+import CustomerApi from '../../../../api/customers.api';
+import { storeDispatch } from '../../../../redux-toolkit';
+import { updateCustomer } from '../../../../redux-toolkit/slices/customers';
 
 type Props = {
   customer: ICustomer;
@@ -31,20 +34,31 @@ type Props = {
 const EditModal: React.FC<Props> = ({ customer }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState<string>(customer.name || '');
-  const [birthday, setBirthday] = useState<Date | null>(customer.birthday || null);
+  const [birthday, setBirthday] = useState<Date | null>(customer.birthday || new Date());
   const [gender, setGender] = useState<Gender>(customer.gender || Gender.MALE);
   const [phone, setPhone] = useState<string>(customer.phone || '');
   const [address, setAddress] = useState<string>(customer.address || '');
   const [isEditing, setIsEditing] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleEdit = async () => {
     setIsEditing(true);
-    setTimeout(() => {
-      console.log(name, gender, birthday, phone, address);
+    try {
+      const updatedCustomer = await CustomerApi.updateCustomer(customer._id!, {
+        name,
+        gender,
+        birthday: birthday || new Date(),
+        phone,
+        address
+      });
+      storeDispatch(updateCustomer({ id: customer._id!, data: updatedCustomer }));
       setIsEditing(false);
       setOpen(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

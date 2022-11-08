@@ -202,7 +202,7 @@ const CustomerRow = (props: { row: ICustomer }) => {
                 sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', my: 1 }}
               >
                 <EditModal customer={row} />
-                <DeleteModal />
+                <DeleteModal custId={row._id!} />
               </Box>
             </Box>
           </Collapse>

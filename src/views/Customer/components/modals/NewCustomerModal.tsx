@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Tooltip from '@mui/material/Tooltip';
@@ -19,7 +20,12 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Man from '@mui/icons-material/Man';
 import Woman from '@mui/icons-material/Woman';
 import HomeIcon from '@mui/icons-material/Home';
+
 import { Gender } from '../../../../utils/constants';
+import CustomerApi from '../../../../api/customers.api';
+import { ICustomer } from '../../../../utils/types';
+import { storeDispatch } from '../../../../redux-toolkit';
+import { addCustomer } from '../../../../redux-toolkit/slices/customers';
 
 const NewCustomerModal = () => {
   const [open, setOpen] = useState(false);
@@ -28,11 +34,23 @@ const NewCustomerModal = () => {
   const [gender, setGender] = useState<Gender>(Gender.MALE);
   const [phone, setPhone] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleSave = () => {
-    console.log(name, gender, birthday, phone, address);
+  const handleSave = async () => {
+    setLoading(true);
+    const inputData: ICustomer = {
+      name,
+      gender,
+      birthday: birthday ? new Date(birthday) : new Date(),
+      phone,
+      address
+    };
+    const newCustomer = await CustomerApi.createNewCustomer(inputData);
+    storeDispatch(addCustomer(newCustomer));
+    setLoading(false);
+    handleClose();
   };
 
   return (
@@ -170,11 +188,18 @@ const NewCustomerModal = () => {
             />
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', m: 1 }}>
-            <Button variant="contained" color="primary" sx={{ mx: 1 }} onClick={handleSave}>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              color="primary"
+              sx={{ mx: 1 }}
+              onClick={handleSave}
+            >
               Lưu
-            </Button>
+            </LoadingButton>
             <Button
               variant="outlined"
+              disabled={loading}
               sx={{
                 borderColor: '#9e9e9e',
                 color: '#9e9e9e',
