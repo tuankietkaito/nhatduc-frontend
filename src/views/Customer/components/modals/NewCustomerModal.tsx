@@ -38,6 +38,7 @@ const NewCustomerModal = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleSave = async () => {
     setLoading(true);
     const inputData: ICustomer = {

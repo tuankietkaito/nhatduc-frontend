@@ -1,6 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IProduct } from '../../utils/types';
+import ProductApi from '../../api/products.api';
+
+export const fetchAllProducts = createAsyncThunk('customers/fetchAllProducts', async () => {
+  const response = await ProductApi.getAllProducts();
+  return response;
+});
 
 export interface ProductsState {
   products: IProduct[];
@@ -17,14 +23,24 @@ export const productsSlice = createSlice({
     setAllProducts: (state, action: PayloadAction<IProduct[]>) => {
       state.products = action.payload;
     },
+    updateProduct: (state, action: PayloadAction<{ id: string; data: IProduct }>) => {
+      const { id, data } = action.payload;
+      const prodId = state.products.findIndex((c) => c._id === id);
+      if (prodId > -1) state.products[prodId] = data;
+    },
     addProduct: (state, action: PayloadAction<IProduct>) => {
       state.products.push(action.payload);
     },
     removeProduct: (state, action: PayloadAction<string>) => {
       state.products = state.products.filter((product) => product._id !== action.payload);
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllProducts.fulfilled, (state, { payload }) => {
+      state.products = payload;
+    });
   }
 });
 
-export const { setAllProducts, addProduct, removeProduct } = productsSlice.actions;
+export const { setAllProducts, updateProduct, addProduct, removeProduct } = productsSlice.actions;
 export default productsSlice.reducer;

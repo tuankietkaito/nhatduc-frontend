@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useTheme } from '@mui/material/styles';
@@ -25,6 +25,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import NewProductModal from './components/NewProductModal';
 import EditModal from './components/EditModal';
 import DeleteModal from './components/DeleteModal';
+
 import { convertNumberToCurrencyString, removeAccents } from '../../../utils/converter';
 import { RootState } from '../../../redux-toolkit';
 
@@ -91,6 +92,10 @@ const Products = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState(allProducts);
+
+  useEffect(() => {
+    setRows(allProducts);
+  }, [allProducts]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -192,7 +197,7 @@ const Products = () => {
                     }}
                   >
                     <EditModal product={row} />
-                    <DeleteModal />
+                    <DeleteModal productId={row._id!} />
                   </Box>
                 </TableCell>
               </TableRow>

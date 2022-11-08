@@ -15,6 +15,9 @@ import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 import PaidIcon from '@mui/icons-material/Paid';
 
 import { IProduct } from '../../../../utils/types';
+import { updateProduct } from '../../../../redux-toolkit/slices/products';
+import ProductApi from '../../../../api/products.api';
+import { storeDispatch } from '../../../../redux-toolkit';
 
 type Props = {
   product: IProduct;
@@ -27,15 +30,25 @@ const EditModal: React.FC<Props> = ({ product }) => {
   const [unit, setUnit] = useState<string>(product.unit || '');
   const [price, setPrice] = useState<string>(product.price.toString());
   const [isEditing, setIsEditing] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleEdit = async () => {
     setIsEditing(true);
-    setTimeout(() => {
-      console.log(name, code, unit, Number(price));
+    try {
+      const updatedProduct = await ProductApi.updateProduct(product._id!, {
+        name,
+        code,
+        unit,
+        price: Number(price)
+      });
+      storeDispatch(updateProduct({ id: product._id!, data: updatedProduct }));
       setIsEditing(false);
       setOpen(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

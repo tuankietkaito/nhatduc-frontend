@@ -10,14 +10,13 @@ import AppRoutes from './routes';
 
 import theme from './theme';
 import { storeDispatch } from './redux-toolkit';
-import { setAllProducts } from './redux-toolkit/slices/products';
+import { fetchAllProducts } from './redux-toolkit/slices/products';
 import { fetchAllCustomers } from './redux-toolkit/slices/customers';
-import { data } from './utils/fake-data';
 
 const App = () => {
   useEffect(() => {
     const fetchData = async () => {
-      storeDispatch(setAllProducts(data.products));
+      storeDispatch(fetchAllProducts());
       storeDispatch(fetchAllCustomers());
     };
     fetchData();

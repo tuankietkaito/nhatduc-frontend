@@ -6,17 +6,31 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const DeleteModal = () => {
+import ProductApi from '../../../../api/products.api';
+import { storeDispatch } from '../../../../redux-toolkit';
+import { removeProduct } from '../../../../redux-toolkit/slices/products';
+
+type Props = {
+  productId: string;
+};
+
+const DeleteModal: React.FC<Props> = ({ productId }) => {
   const [open, setOpen] = useState(false);
   const [isDeleteing, setIsDeleteing] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleDelete = async () => {
     setIsDeleteing(true);
-    setTimeout(() => {
+    try {
+      await ProductApi.deleteProduct(productId);
+      storeDispatch(removeProduct(productId));
       setIsDeleteing(false);
       setOpen(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

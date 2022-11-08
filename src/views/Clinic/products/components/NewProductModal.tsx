@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Tooltip from '@mui/material/Tooltip';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -13,17 +14,34 @@ import Grid3x3Icon from '@mui/icons-material/Grid3x3';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 import PaidIcon from '@mui/icons-material/Paid';
 
+import { IProduct } from '../../../../utils/types';
+import ProductApi from '../../../../api/products.api';
+import { storeDispatch } from '../../../../redux-toolkit';
+import { addProduct } from '../../../../redux-toolkit/slices/products';
+
 const NewProductModal = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState<string>('');
   const [code, setCode] = useState<string>('');
   const [unit, setUnit] = useState<string>('');
   const [price, setPrice] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleSave = () => {
-    console.log(name, code, unit, Number(price));
+
+  const handleSave = async () => {
+    setLoading(true);
+    const inputData: IProduct = {
+      name,
+      code,
+      unit,
+      price: Number(price)
+    };
+    const newProduct = await ProductApi.createNewProduct(inputData);
+    storeDispatch(addProduct(newProduct));
+    setLoading(false);
+    handleClose();
   };
 
   return (
@@ -136,11 +154,18 @@ const NewProductModal = () => {
             </Grid>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', m: 1 }}>
-            <Button variant="contained" color="primary" sx={{ mx: 1 }} onClick={handleSave}>
+            <LoadingButton
+              loading={loading}
+              variant="contained"
+              color="primary"
+              sx={{ mx: 1 }}
+              onClick={handleSave}
+            >
               Lưu
-            </Button>
+            </LoadingButton>
             <Button
               variant="outlined"
+              disabled={loading}
               sx={{
                 borderColor: '#9e9e9e',
                 color: '#9e9e9e',
