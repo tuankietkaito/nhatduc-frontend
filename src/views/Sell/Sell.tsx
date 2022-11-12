@@ -22,11 +22,11 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 import BillRow from './components/BillRow';
+
 import { removeAccents } from '../../utils/converter';
-import { data } from '../../utils/fake-data';
-import { storeDispatch } from './../../redux-toolkit/index';
-import { setAllBills } from '../../redux-toolkit/slices/bills';
+import { RootState } from './../../redux-toolkit/index';
 import { IBill } from './../../utils/types';
+import { useSelector } from 'react-redux';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -86,10 +86,15 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 };
 
 const Sell = () => {
+  const allBills = useSelector((state: RootState) => state.bills.bills);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [rows, setRows] = useState<IBill[]>([]);
+  const [rows, setRows] = useState<IBill[]>(allBills);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  useEffect(() => {
+    setRows(allBills);
+  }, [allBills]);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -104,7 +109,7 @@ const Sell = () => {
 
   const requestSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchedVal = e.target.value;
-    const filteredRows = data.bills.filter((row) => {
+    const filteredRows = allBills.filter((row) => {
       const rowFilter = `${
         row.customer.name ? removeAccents(row.customer.name.toLowerCase()) : ''
       }${row.customer.phone ? row.customer.phone : ''}${row._id}`;
@@ -113,14 +118,6 @@ const Sell = () => {
     setRows(filteredRows);
     setPage(0);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      storeDispatch(setAllBills(data.bills));
-      setRows(data.bills);
-    };
-    fetchData();
-  }, []);
 
   return (
     <>

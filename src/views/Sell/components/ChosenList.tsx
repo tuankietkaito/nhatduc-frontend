@@ -7,6 +7,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -52,22 +53,23 @@ const ChosenList = () => {
   const renderItem = (item: { product: IProduct; quantity: number }, idx: number) => {
     const defaultQuantity = item.quantity ? item.quantity : 1;
     return (
-      <TableRow key={item.product._id}>
+      <TableRow key={item.product._id} sx={{ verticalAlign: 'top' }}>
         <TableCell>
-          {item.product.name} - {item.product.code}
+          <Typography>{item.product.name}</Typography>
+          <Typography sx={{ fontSize: '12px', color: '#949494' }}>{item.product.code}</Typography>
         </TableCell>
-        <TableCell align="center">{convertNumberToCurrencyString(item.product.price)}</TableCell>
+        <TableCell align="right">{convertNumberToCurrencyString(item.product.price)} đ</TableCell>
         <TableCell
           sx={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-around'
+            justifyContent: 'space-evenly'
           }}
         >
           <IconButton
             size="small"
-            sx={{ color: '#f74f43' }}
+            sx={{ color: '#f74f43', m: 0, p: 0 }}
             disabled={item.quantity === 1}
             onClick={() => {
               handleChangeQuantity({ ...item, quantity: defaultQuantity - 1 });
@@ -75,10 +77,10 @@ const ChosenList = () => {
           >
             <RemoveCircleIcon />
           </IconButton>
-          {item.quantity}
+          <span style={{ margin: '0 5px' }}>{item.quantity}</span>
           <IconButton
             size="small"
-            sx={{ color: '#6895f7' }}
+            sx={{ color: '#6895f7', m: 0, p: 0 }}
             onClick={() => {
               handleChangeQuantity({ ...item, quantity: defaultQuantity + 1 });
             }}
@@ -86,13 +88,13 @@ const ChosenList = () => {
             <AddCircleIcon />
           </IconButton>
         </TableCell>
-        <TableCell align="center">
-          {convertNumberToCurrencyString((item.quantity || 1) * item.product.price)}
+        <TableCell align="right">
+          {convertNumberToCurrencyString((item.quantity || 1) * item.product.price)} đ
         </TableCell>
         <TableCell align="center">
           <IconButton
             size="small"
-            sx={{ color: 'gray' }}
+            sx={{ color: 'gray', m: 0, p: 0 }}
             onClick={() => {
               storeDispatch(updateCurrentBillProducts({ product: item.product }));
             }}
@@ -118,6 +120,7 @@ const ChosenList = () => {
       <Box sx={{ height: '70%', overflowY: 'auto' }}>
         <TableContainer component={Paper}>
           <Table
+            size="small"
             sx={{
               [`& .${tableCellClasses.root}`]: {
                 borderBottom: 'none'
@@ -129,10 +132,10 @@ const ChosenList = () => {
                 <TableCell sx={{ width: '35%', fontWeight: 700 }} align="left">
                   Sản phẩm
                 </TableCell>
-                <TableCell sx={{ width: '15%', fontWeight: 700 }} align="center">
+                <TableCell sx={{ width: '20%', fontWeight: 700 }} align="center">
                   Đơn giá
                 </TableCell>
-                <TableCell sx={{ width: '25%', fontWeight: 700 }} align="center">
+                <TableCell sx={{ width: '20%', fontWeight: 700 }} align="center">
                   Số lượng
                 </TableCell>
                 <TableCell sx={{ width: '20%', fontWeight: 700 }} align="center">

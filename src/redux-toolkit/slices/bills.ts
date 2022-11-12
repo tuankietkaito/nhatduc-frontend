@@ -1,6 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IBill, ICustomer, IProduct } from '../../utils/types';
+import BillApi from '../../api/bills.api';
+
+export const fetchAllBills = createAsyncThunk('bills/fetchAllBills', async () => {
+  const response = await BillApi.getAllBills();
+  return response;
+});
 
 export interface CurrentBillInfo {
   customer: ICustomer | null;
@@ -61,6 +67,11 @@ export const billsSlice = createSlice({
       const idx = state.currentBill.products.findIndex((p) => p.product._id === product._id);
       if (idx !== -1) state.currentBill.products[idx] = { product, quantity };
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllBills.fulfilled, (state, { payload }) => {
+      state.bills = payload;
+    });
   }
 });
 

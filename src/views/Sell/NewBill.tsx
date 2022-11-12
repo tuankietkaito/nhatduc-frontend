@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,14 +8,16 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Paper from '@mui/material/Paper';
 import Tooltip from '@mui/material/Tooltip';
 import Grid from '@mui/material/Grid';
-import { useReactToPrint } from 'react-to-print';
 
 import ProductsTable from './components/ProductsTable';
 import ChosenList from './components/ChosenList';
 import ComponentToPrint from './ComponentToPrint';
 import CustomerSelect, { CustomerSelectType } from '../../components/CustomerSelect';
-import { RootState } from '../../redux-toolkit';
+
+import { RootState, storeDispatch } from '../../redux-toolkit';
 import { IBill } from '../../utils/types';
+import BillApi from '../../api/bills.api';
+import { addBill } from '../../redux-toolkit/slices/bills';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -35,21 +38,27 @@ const NewBill = () => {
     content: () => componentRef.current
   });
 
-  const handlePay = () => {
+  const handlePay = async () => {
     if (!bill.customer || bill.products.length === 0) return;
     setLoading(true);
-    // Call API To create a new bill
-    setBillToPrint({
+
+    const inputData: IBill = {
       customer: bill.customer,
       products: bill.products,
       total: bill.products
         .map((item) => (item.quantity || 1) * item.product.price)
         .reduce((prev, curr) => prev + curr, 0)
-    });
-    setTimeout(() => {
+    };
+
+    setBillToPrint(inputData);
+    try {
+      const newBill = await BillApi.createNewBill(inputData);
+      storeDispatch(addBill(newBill));
       handlePrint();
-      setLoading(false);
-    }, 1000);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
   };
 
   return (

@@ -23,7 +23,7 @@ const NewProductModal = () => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState<string>('');
   const [code, setCode] = useState<string>('');
-  const [unit, setUnit] = useState<string>('');
+  const [unit, setUnit] = useState<string>('chiếc');
   const [price, setPrice] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,15 +32,23 @@ const NewProductModal = () => {
 
   const handleSave = async () => {
     setLoading(true);
-    const inputData: IProduct = {
-      name,
-      code,
-      unit,
-      price: Number(price)
-    };
-    const newProduct = await ProductApi.createNewProduct(inputData);
-    storeDispatch(addProduct(newProduct));
-    setLoading(false);
+    try {
+      const inputData: IProduct = {
+        name,
+        code,
+        unit,
+        price: Number(price)
+      };
+      const newProduct = await ProductApi.createNewProduct(inputData);
+      storeDispatch(addProduct(newProduct));
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+    setName('');
+    setCode('');
+    setPrice('');
+    setUnit('chiếc');
     handleClose();
   };
 

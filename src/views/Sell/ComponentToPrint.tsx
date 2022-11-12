@@ -25,21 +25,27 @@ type Props = {
 const ComponentToPrint: React.FC<Props> = ({ bill }) => {
   const promotion = bill.discount ? bill.discount : 0;
   const subTotal = bill.products
-    .map((item) => (item.quantity || 1) * item.product.price)
+    .map((item) => (item.quantity || 1) * (item.product ? item.product.price : 0))
     .reduce((prev, curr) => prev + curr, 0);
 
   const renderItem = (item: { product: IProduct; quantity: number }, idx: number) => {
-    return (
+    return item.product ? (
       <TableRow key={item.product._id}>
         <TableCell align="center">{idx + 1}</TableCell>
-        <TableCell align="left">{item.product.name}</TableCell>
-        <TableCell align="left"> {item.product.code}</TableCell>
+        <TableCell align="left">
+          <div>{item.product.name}</div>
+          <div style={{ fontSize: '8px', color: '#949494' }}>{item.product.code}</div>
+        </TableCell>
         <TableCell align="center"> {item.product.unit}</TableCell>
         <TableCell align="right">{convertNumberToCurrencyString(item.product.price)} VNĐ</TableCell>
         <TableCell align="center">{item.quantity}</TableCell>
         <TableCell align="right">
           {convertNumberToCurrencyString(item.quantity * item.product.price)} VNĐ
         </TableCell>
+      </TableRow>
+    ) : (
+      <TableRow>
+        <TableCell rowSpan={7}>Empty</TableCell>
       </TableRow>
     );
   };
@@ -101,6 +107,7 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
       <Box sx={{ marginTop: '30px', fontSize: '10px' }}>
         <TableContainer component={Paper}>
           <Table
+            size="small"
             sx={{
               [`& .${tableCellClasses.body}`]: {
                 borderColor: '#e0e0e0',
@@ -120,8 +127,9 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
             <TableHead sx={{ bgcolor: '#e3e1e1' }}>
               <TableRow>
                 <TableCell align="center">STT</TableCell>
-                <TableCell align="left">Sản phẩm</TableCell>
-                <TableCell align="left">Mã</TableCell>
+                <TableCell sx={{ width: '30%' }} align="left">
+                  Sản phẩm
+                </TableCell>
                 <TableCell align="center">ĐVT</TableCell>
                 <TableCell align="right">Đơn giá</TableCell>
                 <TableCell align="center">SL</TableCell>

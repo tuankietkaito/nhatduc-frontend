@@ -85,13 +85,10 @@ const ProductsTable = () => {
 
       <div style={{ height: '85%', overflow: 'auto' }}>
         <TableContainer component={Paper}>
-          <Table>
-            <TableHead sx={{ bgcolor: '#e3e1e1' }}>
+          <Table size="small">
+            <TableHead sx={{ bgcolor: '#e3e1e1', p: 0, m: 0 }}>
               <TableRow>
-                <TableCell sx={{ fontWeight: 700 }}>Tên SP</TableCell>
-                <TableCell sx={{ fontWeight: 700 }} align="center">
-                  Mã SP
-                </TableCell>
+                <TableCell sx={{ fontWeight: 700, width: '45%' }}>Tên SP</TableCell>
                 <TableCell sx={{ fontWeight: 700 }} align="center">
                   Đơn vị
                 </TableCell>
@@ -109,13 +106,11 @@ const ProductsTable = () => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    <Typography>{row.name}</Typography>
+                    <Typography sx={{ fontSize: '12px', color: '#949494' }}>{row.code}</Typography>
                   </TableCell>
-                  <TableCell align="center">{row.code}</TableCell>
                   <TableCell align="center">{row.unit}</TableCell>
-                  <TableCell align="right">
-                    {convertNumberToCurrencyString(row.price)} VNĐ
-                  </TableCell>
+                  <TableCell align="right">{convertNumberToCurrencyString(row.price)} đ</TableCell>
                   <TableCell align="center">
                     {!chosenItems.includes(row._id) ? (
                       <Button

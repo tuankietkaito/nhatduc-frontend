@@ -5,18 +5,31 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
+import BillApi from '../../../api/bills.api';
+import { storeDispatch } from '../../../redux-toolkit';
+import { removeBill } from '../../../redux-toolkit/slices/bills';
 
-const DeleteModal = () => {
+type Props = {
+  billId: string;
+};
+
+const DeleteModal: React.FC<Props> = ({ billId }) => {
   const [open, setOpen] = useState(false);
   const [isDeleteing, setIsDeleteing] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleDelete = async () => {
     setIsDeleteing(true);
-    setTimeout(() => {
+    try {
+      await BillApi.deleteBill(billId);
+      storeDispatch(removeBill(billId));
       setIsDeleteing(false);
       setOpen(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

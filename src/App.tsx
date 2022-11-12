@@ -12,12 +12,14 @@ import theme from './theme';
 import { storeDispatch } from './redux-toolkit';
 import { fetchAllProducts } from './redux-toolkit/slices/products';
 import { fetchAllCustomers } from './redux-toolkit/slices/customers';
+import { fetchAllBills } from './redux-toolkit/slices/bills';
 
 const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       storeDispatch(fetchAllProducts());
       storeDispatch(fetchAllCustomers());
+      storeDispatch(fetchAllBills());
     };
     fetchData();
   }, []);

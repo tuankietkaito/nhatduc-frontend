@@ -48,8 +48,12 @@ const NewCustomerModal = () => {
       phone,
       address
     };
-    const newCustomer = await CustomerApi.createNewCustomer(inputData);
-    storeDispatch(addCustomer(newCustomer));
+    try {
+      const newCustomer = await CustomerApi.createNewCustomer(inputData);
+      storeDispatch(addCustomer(newCustomer));
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
     handleClose();
   };

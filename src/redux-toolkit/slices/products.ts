@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { IProduct } from '../../utils/types';
 import ProductApi from '../../api/products.api';
 
-export const fetchAllProducts = createAsyncThunk('customers/fetchAllProducts', async () => {
+export const fetchAllProducts = createAsyncThunk('products/fetchAllProducts', async () => {
   const response = await ProductApi.getAllProducts();
   return response;
 });

@@ -10,12 +10,16 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import LoadingButton from '@mui/lab/LoadingButton';
-
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Man from '@mui/icons-material/Man';
 import Woman from '@mui/icons-material/Woman';
+
+import DeleteModal from './modals/DeleteModal';
+import EditModal from './modals/EditModal';
+import BillsDetailModal from './modals/BillsDetailModal';
+import ExaminationsDetailModal from './modals/ExaminationsDetailModal';
 
 import { IBill, ICustomer } from '../../../utils/types';
 import { Gender } from '../../../utils/constants';
@@ -24,10 +28,6 @@ import {
   convertNumberToCurrencyString,
   convertPhoneNumber
 } from '../../../utils/converter';
-import DeleteModal from './modals/DeleteModal';
-import EditModal from './modals/EditModal';
-import BillsDetailModal from './modals/BillsDetailModal';
-import ExaminationsDetailModal from './modals/ExaminationsDetailModal';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,

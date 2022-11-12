@@ -40,7 +40,7 @@ const BillRow = (props: { row: IBill }) => {
   const [open, setOpen] = useState(false);
 
   const subtotal = row.products.reduce((acc, obj) => {
-    return acc + obj.product.price * obj.quantity;
+    return obj.product ? acc + obj.product.price * obj.quantity : acc + 0;
   }, 0);
 
   const componentRef: any = useRef();
@@ -140,25 +140,33 @@ const BillRow = (props: { row: IBill }) => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {row.products.map((product) => (
-                            <TableRow hover key={product.product.code}>
-                              <TableCell component="th" scope="row">
-                                {product.product.name}
-                              </TableCell>
-                              <TableCell align="center">{product.product.code}</TableCell>
-                              <TableCell align="center">{product.product.unit}</TableCell>
-                              <TableCell align="right">
-                                {convertNumberToCurrencyString(product.product.price)} VNĐ
-                              </TableCell>
-                              <TableCell align="center">{product.quantity}</TableCell>
-                              <TableCell align="right">
-                                {convertNumberToCurrencyString(
-                                  product.product.price * product.quantity
-                                )}{' '}
-                                VNĐ
-                              </TableCell>
-                            </TableRow>
-                          ))}
+                          {row.products.map((product) =>
+                            product.product ? (
+                              <TableRow hover key={product.product.code}>
+                                <TableCell component="th" scope="row">
+                                  {product.product.name}
+                                </TableCell>
+                                <TableCell align="center">{product.product.code}</TableCell>
+                                <TableCell align="center">{product.product.unit}</TableCell>
+                                <TableCell align="right">
+                                  {convertNumberToCurrencyString(product.product.price)} VNĐ
+                                </TableCell>
+                                <TableCell align="center">{product.quantity}</TableCell>
+                                <TableCell align="right">
+                                  {convertNumberToCurrencyString(
+                                    product.product.price * product.quantity
+                                  )}{' '}
+                                  VNĐ
+                                </TableCell>
+                              </TableRow>
+                            ) : (
+                              <TableRow hover>
+                                <TableCell colSpan={7} align="center">
+                                  Sản phẩm không tồn tại
+                                </TableCell>
+                              </TableRow>
+                            )
+                          )}
                           <TableRow>
                             <TableCell rowSpan={3} colSpan={3} />
                             <TableCell colSpan={2} sx={{ pr: 1, fontWeight: 700 }}>
@@ -207,7 +215,7 @@ const BillRow = (props: { row: IBill }) => {
                       >
                         IN HOÁ ĐƠN
                       </Button>
-                      <DeleteModal />
+                      <DeleteModal billId={row._id!} />
                     </Box>
                   </Item>
                 </Grid>

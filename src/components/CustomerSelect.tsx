@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { updateCurrentBillCustomer } from '../redux-toolkit/slices/bills';
 import { RootState, storeDispatch } from '../redux-toolkit';
 import { ICustomer } from '../utils/types';
-import { removeAccents } from '../utils/converter';
+import { convertPhoneNumber, removeAccents } from '../utils/converter';
 import { setCurrentExamCustomer } from '../redux-toolkit/slices/examinations';
 
 export enum CustomerSelectType {
@@ -74,7 +74,7 @@ const CustomerSelect = (props: { type: CustomerSelectType }) => {
             return (
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <PersonIcon sx={{ mr: 2 }} />
-                {`${allCustomers[idx].name} - ${allCustomers[idx].phone}`}
+                {`${allCustomers[idx].name} - ${convertPhoneNumber(allCustomers[idx].phone!)}`}
               </div>
             );
           }}
@@ -114,7 +114,7 @@ const CustomerSelect = (props: { type: CustomerSelectType }) => {
                   }}
                 >
                   <span>{option.name}</span>
-                  <span>{option.phone}</span>
+                  <span>{convertPhoneNumber(option.phone!)}</span>
                 </div>
               </div>
             </MenuItem>
