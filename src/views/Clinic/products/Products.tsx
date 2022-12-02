@@ -1,33 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
+import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import SearchIcon from '@mui/icons-material/Search';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import NewProductModal from './components/NewProductModal';
-import EditModal from './components/EditModal';
-import DeleteModal from './components/DeleteModal';
-
-import { convertNumberToCurrencyString, removeAccents } from '../../../utils/converter';
 import { RootState } from '../../../redux-toolkit';
+import { convertNumberToCurrencyString, removeAccents } from '../../../utils/converter';
+import DeleteModal from './components/DeleteModal';
+import EditModal from './components/EditModal';
+import NewProductModal from './components/NewProductModal';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -187,7 +186,7 @@ const Products = () => {
                 </TableCell>
                 <TableCell align="center">{row.code}</TableCell>
                 <TableCell align="center">{row.unit}</TableCell>
-                <TableCell align="right">{convertNumberToCurrencyString(row.price)} VNĐ</TableCell>
+                <TableCell align="right">{convertNumberToCurrencyString(row.price)} đ</TableCell>
                 <TableCell align="center">
                   <Box
                     sx={{

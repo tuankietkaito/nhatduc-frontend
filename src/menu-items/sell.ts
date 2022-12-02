@@ -1,4 +1,5 @@
 import { IconCoin, IconFilePlus } from '@tabler/icons';
+
 import { MenuItemType } from '../utils/constants';
 import { IMenuItem } from '../utils/types';
 

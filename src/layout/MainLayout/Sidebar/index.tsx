@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Link } from 'react-router-dom';
+
 import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Drawer from '@mui/material/Drawer';
+import { useTheme } from '@mui/material/styles';
 
-import MenuList from './MenuList';
 import Logo from '../../../components/Logo';
-
-import { DRAWER_WIDTH } from './../../../utils/constants';
+import { DRAWER_WIDTH } from '../../../utils/constants';
+import MenuList from './MenuList';
 
 type Props = {
   drawerOpen: boolean;

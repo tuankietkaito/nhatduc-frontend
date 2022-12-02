@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { IBill, ICustomer, IProduct } from '../../utils/types';
-import BillApi from '../../api/bills.api';
 
+import BillApi from '../../api/bills.api';
+import { IBill, ICustomer, IProduct } from '../../utils/types';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
 export const fetchAllBills = createAsyncThunk('bills/fetchAllBills', async () => {
   const response = await BillApi.getAllBills();
   return response;
 });
 
 export interface CurrentBillInfo {
-  customer: ICustomer | null;
+  customer?: ICustomer;
   products: {
     product: IProduct;
     quantity: number;
@@ -24,7 +25,6 @@ export interface BillsState {
 const initialState: BillsState = {
   bills: [],
   currentBill: {
-    customer: null,
     products: []
   }
 };
@@ -37,7 +37,7 @@ export const billsSlice = createSlice({
       state.bills = action.payload;
     },
     addBill: (state, action: PayloadAction<IBill>) => {
-      state.bills.push(action.payload);
+      state.bills.unshift(action.payload);
     },
     removeBill: (state, action: PayloadAction<string>) => {
       state.bills = state.bills.filter((bill) => bill._id !== action.payload);

@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
+
 import Loadable from '../components/Loadable';
 import MainLayout from '../layout/MainLayout';
 import Login from '../views/Authentication/Login';

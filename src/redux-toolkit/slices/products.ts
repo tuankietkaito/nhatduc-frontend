@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { IProduct } from '../../utils/types';
-import ProductApi from '../../api/products.api';
 
+import ProductApi from '../../api/products.api';
+import { IProduct } from '../../utils/types';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
 export const fetchAllProducts = createAsyncThunk('products/fetchAllProducts', async () => {
   const response = await ProductApi.getAllProducts();
   return response;

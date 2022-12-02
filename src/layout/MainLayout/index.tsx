@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import Header from './Header';
-import Sidebar from './Sidebar';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+import { styled, useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 import { RootState, storeDispatch } from '../../redux-toolkit';
-import { setIsOpenedMenu } from '../../redux-toolkit/slices/sideMenu';
 import { fetchProfile } from '../../redux-toolkit/slices/account';
+import { setIsOpenedMenu } from '../../redux-toolkit/slices/sideMenu';
 import { DRAWER_WIDTH } from '../../utils/constants';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 interface MainComponentProps {
   open: boolean;

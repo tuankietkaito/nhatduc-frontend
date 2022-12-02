@@ -1,10 +1,12 @@
 import { useState } from 'react';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
+
 import CustomerApi from '../../../../api/customers.api';
 import { storeDispatch } from '../../../../redux-toolkit';
 import { removeCustomer } from '../../../../redux-toolkit/slices/customers';

@@ -1,27 +1,25 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 
-import { IExamination } from '../../../utils/types';
 import {
-  convertDate,
-  convertNumberToCurrencyString,
-  convertPhoneNumber
-} from '../../../utils/converter';
+    convertDate, convertNumberToCurrencyString, convertPhoneNumber
+} from "../../../utils/converter";
+import { IExamination } from "../../../utils/types";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -38,12 +36,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export const renderExamTable = (title: string, data: any) => {
   return (
-    <Box>
+    <Box sx={{ maxWidth: '100%' }}>
       <Typography sx={{ my: 1, fontSize: '18px', fontWeight: 700 }}>{title}</Typography>
       <TableContainer component={Paper}>
         <Table
+          size="small"
           sx={{
-            minWidth: 650,
+            maxWidth: '100%',
             [`& .${tableCellClasses.body}`]: {
               borderColor: '#e0e0e0',
               borderBottomWidth: '0.5px',
@@ -53,7 +52,8 @@ export const renderExamTable = (title: string, data: any) => {
               borderColor: '#e0e0e0',
               borderBottomWidth: '0.5px',
               fontWeight: 700,
-              padding: '5px'
+              padding: '8px',
+              lineHeight: '16px'
             }
           }}
         >
@@ -121,9 +121,10 @@ export const renderExamTable = (title: string, data: any) => {
       </TableContainer>
       {data.otherProperties?.length && (
         <>
-          <Typography sx={{ my: 1 }}>Ghi chú khác</Typography>
+          <Typography sx={{ my: 1 }}>Các chỉ số khác</Typography>
           {data.otherProperties.map((prop: any) => (
             <Box
+              key={`${prop.key}=${prop.value}`}
               component="span"
               sx={{ bgcolor: 'white', borderRadius: 1, mr: 2, py: 1, px: 2 }}
             >{`${prop.key}: ${prop.value}`}</Box>
@@ -152,9 +153,9 @@ const ExamRow = (props: { row: IExamination }) => {
             {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="left">{row.customer.name}</TableCell>
+        <TableCell align="left">{row.customer?.name}</TableCell>
         <TableCell align="center">
-          {row.customer.phone ? convertPhoneNumber(row.customer.phone) : ''}
+          {row.customer?.phone ? convertPhoneNumber(row.customer?.phone) : ''}
         </TableCell>
         <TableCell align="center">{row.doctor}</TableCell>
         <TableCell align="center">
@@ -180,21 +181,21 @@ const ExamRow = (props: { row: IExamination }) => {
                         Họ và tên
                       </Grid>
                       <Grid item xs={8} sx={{ fontWeight: 600 }}>
-                        {row.customer.name || ''}
+                        {row.customer?.name || ''}
                       </Grid>
 
                       <Grid item xs={4}>
                         SĐT
                       </Grid>
                       <Grid item xs={8} sx={{ fontWeight: 600 }}>
-                        {row.customer.phone ? convertPhoneNumber(row.customer.phone) : ''}
+                        {row.customer?.phone ? convertPhoneNumber(row.customer?.phone) : ''}
                       </Grid>
 
                       <Grid item xs={4}>
                         Địa chỉ
                       </Grid>
                       <Grid item xs={8} sx={{ fontWeight: 600 }}>
-                        {row.customer.address || ''}
+                        {row.customer?.address || ''}
                       </Grid>
 
                       <Grid
@@ -214,7 +215,7 @@ const ExamRow = (props: { row: IExamination }) => {
                         Phí khám
                       </Grid>
                       <Grid item xs={8} sx={{ fontWeight: 600 }}>
-                        {row.fee ? convertNumberToCurrencyString(row.fee) + ' VNĐ' : ''}
+                        {row.fee ? convertNumberToCurrencyString(row.fee) + ' đ' : ''}
                       </Grid>
 
                       <Grid item xs={4}>

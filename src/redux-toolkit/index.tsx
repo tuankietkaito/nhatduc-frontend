@@ -1,11 +1,13 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import sideMenuReducer from './slices/sideMenu';
-import productsReducer from './slices/products';
-import customersReducer from './slices/customers';
-import billsReducer from './slices/bills';
-import examinationReducer from './slices/examinations';
+
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+
 import accountReducer from './slices/account';
+import billsReducer from './slices/bills';
+import customersReducer from './slices/customers';
+import examinationReducer from './slices/examinations';
+import productsReducer from './slices/products';
+import sideMenuReducer from './slices/sideMenu';
 
 export const rootReducer = combineReducers({
   sideMenu: sideMenuReducer,

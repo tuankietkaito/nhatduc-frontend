@@ -1,4 +1,5 @@
 import { TablerIcon } from '@tabler/icons';
+
 import { AccountRole, Gender, MenuItemType } from './constants';
 
 export interface ApiResponse {
@@ -52,26 +53,29 @@ export interface IProduct {
 export interface IBill {
   _id?: string;
   customer: ICustomer;
-  products: { product: IProduct; quantity: number }[];
+  products: {
+    product: IProduct;
+    quantity: number;
+  }[];
   total: number;
   discount?: number;
   paid?: number;
   createdAt?: Date;
 }
 
-interface TwoEyes {
-  left?: number;
-  right?: number;
+export interface TwoEyes {
+  left?: number | null;
+  right?: number | null;
 }
 
-interface ExamProperties {
+export interface ExamProperties {
   sphere?: TwoEyes;
   cylinder?: TwoEyes;
   axis?: TwoEyes;
   visualAcuityGlasses?: TwoEyes;
   visualAcuity?: TwoEyes;
   pupillaryDistance?: TwoEyes;
-  addition?: number;
+  addition?: number | null;
   otherProperties?: {
     key: string;
     value: string | number | null;
@@ -80,10 +84,10 @@ interface ExamProperties {
 
 export interface IExamination {
   _id?: string;
-  customer: ICustomer;
-  doctor: string;
-  eyes: ExamProperties;
-  glasses: ExamProperties;
+  customer?: ICustomer;
+  doctor?: string;
+  eyes?: ExamProperties;
+  glasses?: ExamProperties;
   fee?: number;
   createdAt?: Date;
 }

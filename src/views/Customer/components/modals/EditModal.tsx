@@ -1,31 +1,31 @@
 import { useState } from 'react';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Man from '@mui/icons-material/Man';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Woman from '@mui/icons-material/Woman';
-import HomeIcon from '@mui/icons-material/Home';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Modal from '@mui/material/Modal';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Gender } from '../../../../utils/constants';
-import { ICustomer } from '../../../../utils/types';
 import CustomerApi from '../../../../api/customers.api';
 import { storeDispatch } from '../../../../redux-toolkit';
 import { updateCustomer } from '../../../../redux-toolkit/slices/customers';
+import { Gender } from '../../../../utils/constants';
+import { ICustomer } from '../../../../utils/types';
 
 type Props = {
   customer: ICustomer;

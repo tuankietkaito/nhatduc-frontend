@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { ICustomer } from '../../utils/types';
-import CustomerApi from './../../api/customers.api';
 
+import CustomerApi from '../../api/customers.api';
+import { ICustomer } from '../../utils/types';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
 export const fetchAllCustomers = createAsyncThunk('customers/fetchAllCustomers', async () => {
   const response = await CustomerApi.getAllCustomers();
   return response;

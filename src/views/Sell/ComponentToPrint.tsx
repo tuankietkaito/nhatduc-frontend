@@ -3,18 +3,16 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 
 import {
-  convertDate,
-  convertNumberToCurrencyString,
-  convertPhoneNumber
+    convertDate, convertNumberToCurrencyString, convertPhoneNumber
 } from '../../utils/converter';
 import { IBill, IProduct } from '../../utils/types';
 
@@ -37,10 +35,10 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
           <div style={{ fontSize: '8px', color: '#949494' }}>{item.product.code}</div>
         </TableCell>
         <TableCell align="center"> {item.product.unit}</TableCell>
-        <TableCell align="right">{convertNumberToCurrencyString(item.product.price)} VNĐ</TableCell>
+        <TableCell align="right">{convertNumberToCurrencyString(item.product.price)} đ</TableCell>
         <TableCell align="center">{item.quantity}</TableCell>
         <TableCell align="right">
-          {convertNumberToCurrencyString(item.quantity * item.product.price)} VNĐ
+          {convertNumberToCurrencyString(item.quantity * item.product.price)} đ
         </TableCell>
       </TableRow>
     ) : (
@@ -158,7 +156,7 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography sx={{ textAlign: 'right', fontSize: '10px' }}>
-              {convertNumberToCurrencyString(subTotal)} VNĐ
+              {convertNumberToCurrencyString(subTotal)} đ
             </Typography>
           </Grid>
           <Grid item xs={8}>
@@ -168,7 +166,7 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
           </Grid>
           <Grid item xs={4}>
             <Typography sx={{ textAlign: 'right', fontSize: '10px' }}>
-              {convertNumberToCurrencyString(promotion * subTotal)} VNĐ
+              {convertNumberToCurrencyString(promotion * subTotal)} đ
             </Typography>
           </Grid>
           <Grid item xs={8}>
@@ -179,7 +177,7 @@ const ComponentToPrint: React.FC<Props> = ({ bill }) => {
           <Grid item xs={4} sx={{ fontWeight: 700 }}>
             <Typography sx={{ fontWeight: 700, textAlign: 'right', fontSize: '15px' }}>
               {convertNumberToCurrencyString(bill.total ? bill.total : subTotal * (1 - promotion))}{' '}
-              VNĐ
+              đ
             </Typography>
           </Grid>
         </Grid>

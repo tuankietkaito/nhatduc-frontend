@@ -1,5 +1,5 @@
 import { Gender } from './constants';
-import { ICustomer, IProduct, IBill, IExamination } from './types';
+import { IBill, ICustomer, IExamination, IProduct } from './types';
 
 function createProduct(
   _id: string,

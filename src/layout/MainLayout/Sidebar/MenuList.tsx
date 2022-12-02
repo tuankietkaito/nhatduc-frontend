@@ -1,11 +1,10 @@
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
-import NavGroup from './MenuItem/Group';
-import NavItem from './MenuItem/Item';
+import Typography from '@mui/material/Typography';
 
 import menuItem from '../../../menu-items';
 import { MenuItemType } from '../../../utils/constants';
+import NavGroup from './MenuItem/Group';
+import NavItem from './MenuItem/Item';
 
 const MenuList = () => {
   const navItems = menuItem.items.map((item) => {

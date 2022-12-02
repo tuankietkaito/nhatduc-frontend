@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 import { RootState, storeDispatch } from '../../../redux-toolkit';
-import { convertNumberToCurrencyString, removeAccents } from '../../../utils/converter';
 import { updateCurrentBillProducts } from '../../../redux-toolkit/slices/bills';
+import { convertNumberToCurrencyString, removeAccents } from '../../../utils/converter';
 import { IProduct } from '../../../utils/types';
 
 const ProductsTable = () => {
@@ -26,6 +26,10 @@ const ProductsTable = () => {
     (item) => item.product._id
   );
   const [rows, setRows] = useState(allProducts);
+
+  useEffect(() => {
+    setRows(allProducts);
+  }, [allProducts]);
 
   const requestSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchedVal = e.target.value;

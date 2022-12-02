@@ -1,32 +1,32 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useTheme } from '@mui/material/styles';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
+import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import SearchIcon from '@mui/icons-material/Search';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import ExamRow from './components/ExamRow';
+import { RootState } from '../../redux-toolkit/index';
 import { removeAccents } from '../../utils/converter';
 import { data } from '../../utils/fake-data';
-import { storeDispatch } from './../../redux-toolkit/index';
-import { IExamination } from './../../utils/types';
-import { setAllExaminations } from '../../redux-toolkit/slices/examinations';
+import { IExamination } from '../../utils/types';
+import ExamRow from './components/ExamRow';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -86,9 +86,11 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 };
 
 const Examinations = () => {
+  const allExams = useSelector((state: RootState) => state.examinations.examinations);
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [rows, setRows] = useState<IExamination[]>([]);
+  const [rows, setRows] = useState<IExamination[]>(allExams);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -106,8 +108,8 @@ const Examinations = () => {
     const searchedVal = e.target.value;
     const filteredRows = data.exams.filter((row) => {
       const rowFilter = `${
-        row.customer.name ? removeAccents(row.customer.name.toLowerCase()) : ''
-      }${row.customer.phone ? row.customer.phone : ''}${row._id}`;
+        row.customer?.name ? removeAccents(row.customer?.name.toLowerCase()) : ''
+      }${row.customer?.phone ? row.customer?.phone : ''}${row._id}`;
       return rowFilter.includes(removeAccents(searchedVal.toLowerCase()));
     });
     setRows(filteredRows);
@@ -115,13 +117,8 @@ const Examinations = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const dataExam = data.exams;
-      storeDispatch(setAllExaminations(dataExam));
-      setRows(dataExam);
-    };
-    fetchData();
-  }, []);
+    setRows(allExams);
+  }, [allExams]);
 
   return (
     <>
@@ -180,7 +177,7 @@ const Examinations = () => {
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row) => (
-              <ExamRow row={row} />
+              <ExamRow key={row._id} row={row} />
             ))}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>

@@ -1,32 +1,33 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
+
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CloseIcon from '@mui/icons-material/Close';
 import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Paper from '@mui/material/Paper';
+import { useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CloseIcon from '@mui/icons-material/Close';
 
-import { IBill, ICustomer } from '../../../../utils/types';
 import {
   convertDate,
   convertNumberToCurrencyString,
   convertPhoneNumber
 } from '../../../../utils/converter';
-import { useTheme } from '@mui/material/styles';
+import { IBill, ICustomer } from '../../../../utils/types';
 
 type Props = {
   bills: IBill[];
@@ -39,13 +40,10 @@ const BillTable: React.FC<{ bill: IBill }> = ({ bill }) => {
   }, 0);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }}>
+      <Table sx={{ minWidth: 650 }} size="small">
         <TableHead sx={{ bgcolor: '#e3e1e1' }}>
           <TableRow>
-            <TableCell sx={{ fontWeight: 700 }}>Tên Sản phẩm</TableCell>
-            <TableCell sx={{ fontWeight: 700 }} align="center">
-              Mã SP
-            </TableCell>
+            <TableCell sx={{ fontWeight: 700, width: '40%' }}>Tên Sản phẩm</TableCell>
             <TableCell sx={{ fontWeight: 700 }} align="center">
               Đơn vị
             </TableCell>
@@ -64,25 +62,27 @@ const BillTable: React.FC<{ bill: IBill }> = ({ bill }) => {
           {bill.products.map((product) => (
             <TableRow hover key={product.product.code}>
               <TableCell component="th" scope="row">
-                {product.product.name}
+                <Typography>{product.product.name}</Typography>
+                <Typography sx={{ fontSize: '12px', color: '#949494' }}>
+                  {product.product.code}
+                </Typography>
               </TableCell>
-              <TableCell align="center">{product.product.code}</TableCell>
               <TableCell align="center">{product.product.unit}</TableCell>
               <TableCell align="right">
-                {convertNumberToCurrencyString(product.product.price)} VNĐ
+                {convertNumberToCurrencyString(product.product.price)} đ
               </TableCell>
               <TableCell align="center">{product.quantity}</TableCell>
               <TableCell align="right">
-                {convertNumberToCurrencyString(product.product.price * product.quantity)} VNĐ
+                {convertNumberToCurrencyString(product.product.price * product.quantity)} đ
               </TableCell>
             </TableRow>
           ))}
           <TableRow>
-            <TableCell rowSpan={3} colSpan={3} />
+            <TableCell rowSpan={3} colSpan={2} />
             <TableCell colSpan={2} sx={{ pr: 1, fontWeight: 700 }}>
               Tổng cộng
             </TableCell>
-            <TableCell align="right">{convertNumberToCurrencyString(subtotal)} VNĐ</TableCell>
+            <TableCell align="right">{convertNumberToCurrencyString(subtotal)} đ</TableCell>
           </TableRow>
           <TableRow>
             <TableCell sx={{ pr: 1, fontWeight: 700 }}>Khuyến mãi</TableCell>
@@ -96,7 +96,7 @@ const BillTable: React.FC<{ bill: IBill }> = ({ bill }) => {
               Thành tiền
             </TableCell>
             <TableCell align="right" sx={{ fontWeight: 700 }}>
-              {convertNumberToCurrencyString(bill.total)} VNĐ
+              {convertNumberToCurrencyString(bill.total)} đ
             </TableCell>
           </TableRow>
         </TableBody>
@@ -178,10 +178,10 @@ const BillsDetailModal: React.FC<Props> = ({ bills, customer }) => {
           >
             <Timeline>
               {bills.map((bill) => (
-                <TimelineItem>
+                <TimelineItem key={bill._id}>
                   <TimelineOppositeContent
                     sx={{ maxWidth: '1px', paddingLeft: '0px', paddingRight: '0px' }}
-                  ></TimelineOppositeContent>
+                  />
                   <TimelineSeparator>
                     <TimelineDot color="primary">
                       <CalendarMonthIcon />

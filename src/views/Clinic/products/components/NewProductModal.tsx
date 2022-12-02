@@ -1,23 +1,24 @@
 import { useState } from 'react';
+
+import AbcIcon from '@mui/icons-material/Abc';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
+import Grid3x3Icon from '@mui/icons-material/Grid3x3';
+import PaidIcon from '@mui/icons-material/Paid';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Tooltip from '@mui/material/Tooltip';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AbcIcon from '@mui/icons-material/Abc';
-import Grid3x3Icon from '@mui/icons-material/Grid3x3';
-import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
-import PaidIcon from '@mui/icons-material/Paid';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
-import { IProduct } from '../../../../utils/types';
 import ProductApi from '../../../../api/products.api';
 import { storeDispatch } from '../../../../redux-toolkit';
 import { addProduct } from '../../../../redux-toolkit/slices/products';
+import { IProduct } from '../../../../utils/types';
 
 const NewProductModal = () => {
   const [open, setOpen] = useState(false);

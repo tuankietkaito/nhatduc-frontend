@@ -1,30 +1,28 @@
 import { useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import PrintIcon from '@mui/icons-material/Print';
-import { useReactToPrint } from 'react-to-print';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 
-import { IBill } from '../../../utils/types';
 import {
-  convertDate,
-  convertNumberToCurrencyString,
-  convertPhoneNumber
+    convertDate, convertNumberToCurrencyString, convertPhoneNumber
 } from '../../../utils/converter';
+import { IBill } from '../../../utils/types';
 import ComponentToPrint from '../ComponentToPrint';
 import DeleteModal from './DeleteModal';
 
@@ -72,7 +70,7 @@ const BillRow = (props: { row: IBill }) => {
           {row.customer.phone ? convertPhoneNumber(row.customer.phone) : ''}
         </TableCell>
         <TableCell align="center">{row.discount ? `${row.discount * 100}%` : 'Không'}</TableCell>
-        <TableCell align="right">{convertNumberToCurrencyString(row.total)} VNĐ</TableCell>
+        <TableCell align="right">{convertNumberToCurrencyString(row.total)} đ</TableCell>
         <TableCell align="center">
           {row.createdAt ? convertDate(row.createdAt, true) : ''}
         </TableCell>
@@ -121,9 +119,8 @@ const BillRow = (props: { row: IBill }) => {
                       <Table sx={{ minWidth: 650 }}>
                         <TableHead sx={{ bgcolor: '#e3e1e1' }}>
                           <TableRow>
-                            <TableCell sx={{ fontWeight: 700 }}>Tên Sản phẩm</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }} align="center">
-                              Mã SP
+                            <TableCell sx={{ fontWeight: 700, width: '45%' }}>
+                              Tên Sản phẩm
                             </TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="center">
                               Đơn vị
@@ -144,36 +141,38 @@ const BillRow = (props: { row: IBill }) => {
                             product.product ? (
                               <TableRow hover key={product.product.code}>
                                 <TableCell component="th" scope="row">
-                                  {product.product.name}
+                                  <Typography>{product.product.name}</Typography>
+                                  <Typography sx={{ fontSize: '12px', color: '#949494' }}>
+                                    {product.product.code}
+                                  </Typography>
                                 </TableCell>
-                                <TableCell align="center">{product.product.code}</TableCell>
                                 <TableCell align="center">{product.product.unit}</TableCell>
                                 <TableCell align="right">
-                                  {convertNumberToCurrencyString(product.product.price)} VNĐ
+                                  {convertNumberToCurrencyString(product.product.price)} đ
                                 </TableCell>
                                 <TableCell align="center">{product.quantity}</TableCell>
                                 <TableCell align="right">
                                   {convertNumberToCurrencyString(
                                     product.product.price * product.quantity
                                   )}{' '}
-                                  VNĐ
+                                  đ
                                 </TableCell>
                               </TableRow>
                             ) : (
                               <TableRow hover>
-                                <TableCell colSpan={7} align="center">
+                                <TableCell colSpan={6} align="center">
                                   Sản phẩm không tồn tại
                                 </TableCell>
                               </TableRow>
                             )
                           )}
                           <TableRow>
-                            <TableCell rowSpan={3} colSpan={3} />
+                            <TableCell rowSpan={3} colSpan={2} />
                             <TableCell colSpan={2} sx={{ pr: 1, fontWeight: 700 }}>
                               Tổng cộng
                             </TableCell>
                             <TableCell align="right">
-                              {convertNumberToCurrencyString(subtotal)} VNĐ
+                              {convertNumberToCurrencyString(subtotal)} đ
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -185,7 +184,7 @@ const BillRow = (props: { row: IBill }) => {
                               {convertNumberToCurrencyString(
                                 row.discount ? subtotal * row.discount : 0
                               )}{' '}
-                              VNĐ
+                              đ
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -193,7 +192,7 @@ const BillRow = (props: { row: IBill }) => {
                               Thành tiền
                             </TableCell>
                             <TableCell align="right" sx={{ fontWeight: 700 }}>
-                              {convertNumberToCurrencyString(row.total)} VNĐ
+                              {convertNumberToCurrencyString(row.total)} đ
                             </TableCell>
                           </TableRow>
                         </TableBody>

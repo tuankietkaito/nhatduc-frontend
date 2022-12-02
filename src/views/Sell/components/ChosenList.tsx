@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -8,20 +14,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '../../../redux-toolkit';
-import { IProduct } from '../../../utils/types';
-import { checkPromotion, convertNumberToCurrencyString } from '../../../utils/converter';
-import { storeDispatch } from './../../../redux-toolkit/index';
+import { storeDispatch } from '../../../redux-toolkit/index';
 import {
-  updateCurrentBillProducts,
-  updateProductQuantity
+    updateCurrentBillProducts, updateProductQuantity
 } from '../../../redux-toolkit/slices/bills';
+import { checkPromotion, convertNumberToCurrencyString } from '../../../utils/converter';
+import { IProduct } from '../../../utils/types';
 
 const ChosenList = () => {
   const currentBill = useSelector((state: RootState) => state.bills.currentBill);
@@ -163,7 +163,7 @@ const ChosenList = () => {
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="right">Tổng cộng</TableCell>
                 <TableCell align="right" colSpan={2}>
-                  {convertNumberToCurrencyString(subTotal)} VNĐ
+                  {convertNumberToCurrencyString(subTotal)} đ
                 </TableCell>
               </TableRow>
 
@@ -171,14 +171,14 @@ const ChosenList = () => {
                 <TableCell align="right">Khuyến mãi</TableCell>
                 <TableCell align="right">{promotion ? `${promotion * 100}%` : `Không`}</TableCell>
                 <TableCell align="right">
-                  {convertNumberToCurrencyString(promotion * subTotal)} VNĐ
+                  {convertNumberToCurrencyString(promotion * subTotal)} đ
                 </TableCell>
               </TableRow>
 
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="right">Thành tiền</TableCell>
                 <TableCell align="right" colSpan={2} sx={{ fontSize: '20px', fontWeight: 700 }}>
-                  {convertNumberToCurrencyString(subTotal * (1 - promotion))} VNĐ
+                  {convertNumberToCurrencyString(subTotal * (1 - promotion))} đ
                 </TableCell>
               </TableRow>
             </TableBody>

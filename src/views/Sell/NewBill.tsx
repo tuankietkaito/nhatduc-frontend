@@ -1,23 +1,23 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+
 import LoadingButton from '@mui/lab/LoadingButton';
-import Paper from '@mui/material/Paper';
-import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
-import ProductsTable from './components/ProductsTable';
-import ChosenList from './components/ChosenList';
-import ComponentToPrint from './ComponentToPrint';
-import CustomerSelect, { CustomerSelectType } from '../../components/CustomerSelect';
-
-import { RootState, storeDispatch } from '../../redux-toolkit';
-import { IBill } from '../../utils/types';
 import BillApi from '../../api/bills.api';
+import CustomerSelect, { CustomerSelectType } from '../../components/CustomerSelect';
+import { RootState, storeDispatch } from '../../redux-toolkit';
 import { addBill } from '../../redux-toolkit/slices/bills';
+import { IBill } from '../../utils/types';
+import ChosenList from './components/ChosenList';
+import ProductsTable from './components/ProductsTable';
+import ComponentToPrint from './ComponentToPrint';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -86,7 +86,7 @@ const NewBill = () => {
                   justifyContent: 'space-between'
                 }}
               >
-                <CustomerSelect type={CustomerSelectType.BILL} />
+                <CustomerSelect type={CustomerSelectType.BILL} defaultUser={bill.customer} />
                 <ChosenList />
                 {bill.customer && bill.products.length > 0 ? (
                   <LoadingButton

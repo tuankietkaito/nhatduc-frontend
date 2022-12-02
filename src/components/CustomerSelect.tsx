@@ -1,32 +1,34 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListSubheader from '@mui/material/ListSubheader';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import ListSubheader from '@mui/material/ListSubheader';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 
-import { updateCurrentBillCustomer } from '../redux-toolkit/slices/bills';
 import { RootState, storeDispatch } from '../redux-toolkit';
-import { ICustomer } from '../utils/types';
-import { convertPhoneNumber, removeAccents } from '../utils/converter';
+import { updateCurrentBillCustomer } from '../redux-toolkit/slices/bills';
 import { setCurrentExamCustomer } from '../redux-toolkit/slices/examinations';
+import { convertPhoneNumber, removeAccents } from '../utils/converter';
+import { ICustomer } from '../utils/types';
 
 export enum CustomerSelectType {
   BILL = 'BILL',
   EXAMINATION = 'EXAMINATION'
 }
 
-const CustomerSelect = (props: { type: CustomerSelectType }) => {
-  const { type } = props;
+const CustomerSelect = (props: { type: CustomerSelectType; defaultUser?: ICustomer }) => {
+  const { type, defaultUser } = props;
   const allCustomers = useSelector((state: RootState) => state.customers.customers);
-  const [chosenCustomerId, setChosenCustomerId] = useState<string | null>(null);
+  const [chosenCustomerId, setChosenCustomerId] = useState<string | undefined>(
+    defaultUser ? defaultUser._id : undefined
+  );
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const CustomerSelect = (props: { type: CustomerSelectType }) => {
   const displayedOptions = useMemo(
     () => allCustomers.filter((option) => containsText(option, searchText)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchText]
+    [searchText, allCustomers]
   );
 
   return (
@@ -68,6 +70,7 @@ const CustomerSelect = (props: { type: CustomerSelectType }) => {
           label="Chọn Khách hàng"
           onChange={(e) => setChosenCustomerId(e.target.value)}
           onClose={() => setSearchText('')}
+          defaultValue={defaultUser ? defaultUser._id : undefined}
           error={!chosenCustomerId}
           renderValue={() => {
             const idx = allCustomers.findIndex((i) => i._id === chosenCustomerId);

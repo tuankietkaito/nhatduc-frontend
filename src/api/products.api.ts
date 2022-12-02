@@ -1,5 +1,5 @@
-import { privateInstance } from '.';
 import { ApiResponse, IProduct } from '../utils/types';
+import { privateInstance } from './';
 
 const getAllProducts = async (): Promise<IProduct[]> => {
   const res: ApiResponse = await privateInstance.get('/products');

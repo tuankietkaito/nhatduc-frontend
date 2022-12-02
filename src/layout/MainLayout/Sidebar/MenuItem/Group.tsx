@@ -2,9 +2,9 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 
-import NavItem from './Item';
-import NavCollapse from './Collapse';
 import { IMenuItem } from '../../../../utils/types';
+import NavCollapse from './Collapse';
+import NavItem from './Item';
 
 type Props = {
   item: IMenuItem;

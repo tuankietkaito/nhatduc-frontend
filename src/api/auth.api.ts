@@ -1,5 +1,5 @@
-import { publicInstance } from '.';
 import { ApiResponse } from '../utils/types';
+import { publicInstance } from './';
 
 export const login = async (data: { username: string; password: string }) => {
   const { username, password } = data;

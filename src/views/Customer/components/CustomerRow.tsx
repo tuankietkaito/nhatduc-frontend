@@ -1,33 +1,32 @@
 import { useEffect, useState } from 'react';
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import TableCell from '@mui/material/TableCell';
-import Grid from '@mui/material/Grid';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import LoadingButton from '@mui/lab/LoadingButton';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Man from '@mui/icons-material/Man';
 import Woman from '@mui/icons-material/Woman';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 
-import DeleteModal from './modals/DeleteModal';
-import EditModal from './modals/EditModal';
-import BillsDetailModal from './modals/BillsDetailModal';
-import ExaminationsDetailModal from './modals/ExaminationsDetailModal';
-
-import { IBill, ICustomer } from '../../../utils/types';
+import BillApi from '../../../api/bills.api';
+import ExamApi from '../../../api/exams.api';
 import { Gender } from '../../../utils/constants';
 import {
-  convertDate,
-  convertNumberToCurrencyString,
-  convertPhoneNumber
+    convertDate, convertNumberToCurrencyString, convertPhoneNumber
 } from '../../../utils/converter';
+import { IBill, ICustomer, IExamination } from '../../../utils/types';
+import BillsDetailModal from './modals/BillsDetailModal';
+import DeleteModal from './modals/DeleteModal';
+import EditModal from './modals/EditModal';
+import ExaminationsDetailModal from './modals/ExaminationsDetailModal';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -40,7 +39,7 @@ const CustomerRow = (props: { row: ICustomer }) => {
   const { row } = props;
   const [bills, setBills] = useState<IBill[]>([]);
   const [totalBills, setTotalBills] = useState<number>(0);
-  const [exam, setExam] = useState<IBill[]>([]);
+  const [exams, setExams] = useState<IExamination[]>([]);
   const [totalExam, setTotalExam] = useState<number>(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,35 +52,25 @@ const CustomerRow = (props: { row: ICustomer }) => {
     );
   }, [bills]);
 
+  useEffect(() => {
+    setTotalExam(
+      exams.reduce((acc, obj) => {
+        return acc + (obj.fee || 0);
+      }, 0)
+    );
+  }, [exams]);
+
   const onClickExpand = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setBills([
-        {
-          customer: { name: 'Tuấn Kiệt' },
-          products: [
-            { product: { name: 'Mắt kính A', code: 'A', unit: 'cái', price: 800000 }, quantity: 1 },
-            { product: { name: 'Mắt kính B', code: 'B', unit: 'cái', price: 650000 }, quantity: 1 }
-          ],
-          total: 1450000,
-          createdAt: new Date('2022-03-02T00:00:00')
-        },
-        {
-          customer: { name: 'Tuấn Kiệt' },
-          products: [
-            {
-              product: { name: 'Mắt kính D', code: 'D', unit: 'cái', price: 1000000 },
-              quantity: 1
-            },
-            { product: { name: 'Mắt kính F', code: 'F', unit: 'cái', price: 900000 }, quantity: 1 },
-            { product: { name: 'Mắt kính B', code: 'B', unit: 'cái', price: 650000 }, quantity: 1 }
-          ],
-          total: 2550000,
-          createdAt: new Date('2021-12-22T00:00:00')
-        }
-      ]);
+    try {
+      const customerBills = await BillApi.getAllBills(row._id!);
+      setBills(customerBills);
+      const customerExams = await ExamApi.getAllExams(row._id!);
+      setExams(customerExams);
       setLoading(false);
-    }, 2000);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -145,21 +134,21 @@ const CustomerRow = (props: { row: ICustomer }) => {
                           Tổng tiền khám mắt
                         </Grid>
                         <Grid item xs={6} sx={{ fontWeight: 600 }}>
-                          {convertNumberToCurrencyString(totalExam)} VNĐ
+                          {convertNumberToCurrencyString(totalExam)} đ
                         </Grid>
 
                         <Grid item xs={6} sx={{ textAlign: 'right' }}>
                           Tổng tiền mua kính
                         </Grid>
                         <Grid item xs={6} sx={{ fontWeight: 600 }}>
-                          {convertNumberToCurrencyString(totalBills)} VNĐ
+                          {convertNumberToCurrencyString(totalBills)} đ
                         </Grid>
 
                         <Grid item xs={6} sx={{ textAlign: 'right', fontWeight: 600 }}>
                           Tổng cộng
                         </Grid>
                         <Grid item xs={6} sx={{ fontWeight: 600, color: 'red' }}>
-                          {convertNumberToCurrencyString(totalExam + totalBills)} VNĐ
+                          {convertNumberToCurrencyString(totalExam + totalBills)} đ
                         </Grid>
                       </Grid>
                     </Item>
@@ -172,7 +161,7 @@ const CustomerRow = (props: { row: ICustomer }) => {
                           Khám Mắt
                         </Grid>
                         <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                          {exam.length} lần
+                          {exams.length} lần
                         </Grid>
                         <ExaminationsDetailModal customerId="abc" />
 

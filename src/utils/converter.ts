@@ -37,7 +37,7 @@ export const removeAccents = (str: string) => {
     .replace(/Đ/g, 'D');
 };
 
-/* Format number with comma( 10000 -> 10,000 VNĐ) */
+/* Format number with comma( 10000 -> 10,000 đ) */
 export const convertNumberToCurrencyString = (x: number) => {
   if (!x) return x;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

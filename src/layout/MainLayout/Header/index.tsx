@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
+import { useTheme } from '@mui/material/styles';
 import { IconMenu2 } from '@tabler/icons';
 
 import Logo from '../../../components/Logo';

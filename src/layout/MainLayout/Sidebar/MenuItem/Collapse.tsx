@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useTheme } from '@mui/material/styles';
 
-import Typography from '@mui/material/Typography';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons';
 
 import { IMenuItem } from '../../../../utils/types';

@@ -1,4 +1,5 @@
 import { IconDashboard, IconUsers } from '@tabler/icons';
+
 import { MenuItemType } from '../utils/constants';
 import { IMenuItem } from '../utils/types';
 

@@ -1,4 +1,5 @@
-import { IconEyeglass, IconNotes, IconReceiptTax, IconChartBar } from '@tabler/icons';
+import { IconChartBar, IconEyeglass, IconNotes, IconReceiptTax } from '@tabler/icons';
+
 import { MenuItemType } from '../utils/constants';
 import { IMenuItem } from '../utils/types';
 

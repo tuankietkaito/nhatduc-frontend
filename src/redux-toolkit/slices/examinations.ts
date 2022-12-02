@@ -1,15 +1,56 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import ExamApi from '../../api/exams.api';
+import { ExamProperties, ICustomer, IExamination } from '../../utils/types';
+
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IExamination, ICustomer } from '../../utils/types';
+export const fetchAllExams = createAsyncThunk('examinations/fetchAllExams', async () => {
+  const response = await ExamApi.getAllExams();
+  return response;
+});
+
+const DEFAULT_EXAM_PROPS: ExamProperties = {
+  sphere: {
+    left: null,
+    right: null
+  },
+  cylinder: {
+    left: null,
+    right: null
+  },
+  axis: {
+    left: null,
+    right: null
+  },
+  visualAcuityGlasses: {
+    left: null,
+    right: null
+  },
+  visualAcuity: {
+    left: null,
+    right: null
+  },
+  pupillaryDistance: {
+    left: null,
+    right: null
+  },
+  addition: null,
+  otherProperties: []
+};
 
 export interface ExaminationState {
   examinations: IExamination[];
-  currentExamCustomer: ICustomer | null;
+  currentExam: IExamination | null;
+  currentExamCustomer?: ICustomer;
 }
 
 const initialState: ExaminationState = {
   examinations: [],
-  currentExamCustomer: null
+  currentExam: {
+    eyes: DEFAULT_EXAM_PROPS,
+    glasses: DEFAULT_EXAM_PROPS
+  },
+  currentExamCustomer: undefined
 };
 
 export const examinationSlice = createSlice({
@@ -20,7 +61,7 @@ export const examinationSlice = createSlice({
       state.examinations = action.payload;
     },
     addExamination: (state, action: PayloadAction<IExamination>) => {
-      state.examinations.push(action.payload);
+      state.examinations.unshift(action.payload);
     },
     removeExamination: (state, action: PayloadAction<string>) => {
       state.examinations = state.examinations.filter(
@@ -28,11 +69,26 @@ export const examinationSlice = createSlice({
       );
     },
     setCurrentExamCustomer: (state, action: PayloadAction<ICustomer>) => {
-      state.currentExamCustomer = action.payload;
+      if (!state.currentExam)
+        state.currentExam = { customer: action.payload, eyes: {}, glasses: {} };
+      else state.currentExam.customer = action.payload;
+    },
+    setCurrentExam: (state, action: PayloadAction<IExamination>) => {
+      state.currentExam = { ...state.currentExam, ...action.payload };
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllExams.fulfilled, (state, { payload }) => {
+      state.examinations = payload;
+    });
   }
 });
 
-export const { setAllExaminations, addExamination, removeExamination, setCurrentExamCustomer } =
-  examinationSlice.actions;
+export const {
+  setAllExaminations,
+  addExamination,
+  removeExamination,
+  setCurrentExamCustomer,
+  setCurrentExam
+} = examinationSlice.actions;
 export default examinationSlice.reducer;

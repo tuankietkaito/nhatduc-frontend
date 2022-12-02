@@ -1,8 +1,10 @@
-import { privateInstance } from '.';
 import { ApiResponse, IBill } from '../utils/types';
+import { privateInstance } from './';
 
-const getAllBills = async (): Promise<IBill[]> => {
-  const res: ApiResponse = await privateInstance.get('/bills');
+const getAllBills = async (customerId?: string): Promise<IBill[]> => {
+  const res: ApiResponse = await privateInstance.get(
+    `/bills${customerId ? `?customerId=${customerId}` : ''}`
+  );
   return res.payload as IBill[];
 };
 

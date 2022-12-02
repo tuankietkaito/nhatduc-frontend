@@ -1,25 +1,27 @@
 import { useEffect } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
+
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-import type {} from '@mui/x-date-pickers/themeAugmentation';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import NavigationScroll from './layout/NavigationScroll';
-import AppRoutes from './routes';
-
-import theme from './theme';
 import { storeDispatch } from './redux-toolkit';
-import { fetchAllProducts } from './redux-toolkit/slices/products';
-import { fetchAllCustomers } from './redux-toolkit/slices/customers';
 import { fetchAllBills } from './redux-toolkit/slices/bills';
+import { fetchAllCustomers } from './redux-toolkit/slices/customers';
+import { fetchAllExams } from './redux-toolkit/slices/examinations';
+import { fetchAllProducts } from './redux-toolkit/slices/products';
+import AppRoutes from './routes';
+import theme from './theme';
 
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       storeDispatch(fetchAllProducts());
       storeDispatch(fetchAllCustomers());
       storeDispatch(fetchAllBills());
+      storeDispatch(fetchAllExams());
     };
     fetchData();
   }, []);

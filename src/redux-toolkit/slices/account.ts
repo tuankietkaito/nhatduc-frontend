@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { IAccount } from '../../utils/types';
-import { getProfile } from '../../api/account.api';
 
+import { getProfile } from '../../api/account.api';
+import { IAccount } from '../../utils/types';
+
+import type { PayloadAction } from '@reduxjs/toolkit';
 export const fetchProfile = createAsyncThunk('account/fetchProfile', async () => {
   const response = await getProfile();
   return response.payload;
